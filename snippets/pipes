@@ -1,0 +1,7 @@
+// play file with audio
+
+gst-launch-0.10 filesrc location=/media/data/g.avi ! decodebin name=decoder decoder. ! queue ! audioconvert ! audioresample ! alsasink decoder. ! ffmpegcolorspace ! xvimagesink
+
+
+// record to flv
+gst-launch-0.10 filesrc location=g.avi ! decodebin ! queue ! ffenc_flv ! ffmux_flv ! filesink location=g.flv

@@ -1,0 +1,12 @@
+.clip {
+	float:left;
+	margin: 4px;
+	margin-right: 0;
+	padding: 5px;
+}
+
+.x-view-selected{
+	background: #eff5fb url(../images/selected.gif) no-repeat right bottom;
+	border:1px solid #99bbe8;
+	padding: 4px;
+}

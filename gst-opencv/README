@@ -1,0 +1,9 @@
+WHAT IT IS
+----------
+
+gst-opencv is a set of video filters designed for video editing applications
+
+HOW TO USE IT
+-------------
+
+$	gst-launch-0.10 v4l2src ! 'video/x-raw-rgb,width=640,height=480' ! ffmpegcolorspace ! faceblur face-width=40 face-height=40 ! ffmpegcolorspace ! xvimagesink
