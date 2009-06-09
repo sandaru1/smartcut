@@ -5,3 +5,5 @@ gst-launch-0.10 filesrc location=/media/data/g.avi ! decodebin name=decoder deco
 
 // record to flv
 gst-launch-0.10 filesrc location=g.avi ! decodebin ! queue ! ffenc_flv ! ffmux_flv ! filesink location=g.flv
+
+gst-launch-0.10 gnlfilesource location=/media/data/k.avi start=0 nmedia-start=0 media-duration=10000000000 duration=10000000000 ! xvimagesink

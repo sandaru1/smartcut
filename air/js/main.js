@@ -22,8 +22,15 @@ Ext.onReady(function(){
 	});
 
 
-	//var v = new Ext.air.VideoPanel({renderTo:'player',width:200,height:200,url:'http://localhost/g.flv'});
+	var v = new Ext.air.VideoPanel({renderTo:'player',width:200,height:200,url:'http://localhost/g.flv'});
 
 	var timeline = new Timeline({renderTo:'timeline'});
 	win.show();
+/*
+  var object = new Ext.air.NativeWindow({
+    		file:'object.html',
+    		width:500,
+    		height:400
+    });
+  object.show();*/
 });

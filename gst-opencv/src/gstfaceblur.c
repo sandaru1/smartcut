@@ -70,14 +70,14 @@ static GstStaticPadTemplate gst_faceblur_src_template =
 GST_STATIC_PAD_TEMPLATE ("src",
     GST_PAD_SRC,
     GST_PAD_ALWAYS,
-    GST_STATIC_CAPS (GST_VIDEO_CAPS_YUV ("{ IYUV, I420, YV12  }"))
+    GST_STATIC_CAPS (GST_VIDEO_CAPS_RGB)
     );
 
 static GstStaticPadTemplate gst_faceblur_sink_template =
 GST_STATIC_PAD_TEMPLATE ("sink",
     GST_PAD_SINK,
     GST_PAD_ALWAYS,
-    GST_STATIC_CAPS (GST_VIDEO_CAPS_YUV ("{ IYUV, I420, YV12  }"))
+    GST_STATIC_CAPS (GST_VIDEO_CAPS_RGB)
     );
 
 static void gst_faceblur_set_property (GObject * object, guint prop_id,
@@ -164,7 +164,7 @@ gst_faceblur_get_unit_size (GstBaseTransform * btrans, GstCaps * caps,
 
   if (gst_structure_get_int (structure, "width", &width) &&
       gst_structure_get_int (structure, "height", &height)) {
-    *size = GST_VIDEO_I420_SIZE (width, height);
+    *size = width * height * 3;
     ret = TRUE;
     GST_DEBUG_OBJECT (faceblur, "our frame size is %d bytes (%dx%d)", *size,
         width, height);
@@ -238,7 +238,7 @@ gst_faceblur_set_caps (GstBaseTransform * base, GstCaps * incaps,
   if (!res)
     goto done;
 
-  this->size = GST_VIDEO_I420_SIZE (this->width, this->height);
+  this->size = this->width * this->height * 3;
 
 done:
   return res;
@@ -273,8 +273,8 @@ gst_faceblur_transform (GstBaseTransform * base, GstBuffer * inbuf, GstBuffer * 
   image = cvCreateImage(cvSize(faceblur->width,faceblur->height), 8, 1 );
   for(i=0;i<faceblur->height;i++)
     for(k=0;k<faceblur->width;k++) {
-		pos = (i * GST_VIDEO_I420_Y_ROWSTRIDE(faceblur->width) + k);
-		image->imageData[ i * faceblur->width + k ] = data[pos];
+		pos = (i * faceblur->width + k) * 3;
+		image->imageData[ pos/3 ] = (data[pos] + data[pos+1] + data[pos+2]) / 3;
 	}
 
     CvSeq* faces = cvHaarDetectObjects( image, faceblur->cascade, faceblur->storage,
@@ -292,9 +292,20 @@ gst_faceblur_transform (GstBaseTransform * base, GstBuffer * inbuf, GstBuffer * 
 	{
 		CvRect* r = (CvRect*)cvGetSeqElem( faces, i );
 		for(k=0;k < r->height;k++)
-			for(j=0;j < r->width;j++) {
-			pos = ((k+r->y) * GST_VIDEO_I420_Y_ROWSTRIDE(faceblur->width) + j + r->x);
-			out[pos] += 20;
+			for(j=0;j < r->width;j+=10) {
+				R = 0; G = 0; B = 0;
+				for(a=0;a<10;a++) {
+					pos = ((k+r->y) * faceblur->width + j + r->x + a) * 3;
+					R += out[pos]/10;
+					G += out[pos+1]/10;
+					B += out[pos+2]/10;
+				}
+				for(a=0;a<10;a++) {
+					pos = ((k+r->y) * faceblur->width + j + r->x + a) * 3;
+					out[pos]=R;
+					out[pos+1]=G;
+					out[pos+2]=B;
+				}
 			}
 	}
 

@@ -39,18 +39,15 @@ int main(int argc, char** argv)
 
     CvMemStorage* storage = cvCreateMemStorage(0);
 	CvRect selection;
-    CvCapture* capture = 0;
-	capture = cvCaptureFromAVI( "/media/data/o.avi" ); 
 
-	selection.x = 320;
-	selection.y = 110;
-	selection.width = 70;
-	selection.height = 60;
+	selection.x = 50;
+	selection.y = 200;
+	selection.width = 100;
+	selection.height = 200;
 
     cvNamedWindow("win", 1);
 
-    image = cvQueryFrame( capture );
-
+    image = cvLoadImage( "a.png" );
 
     hsv = cvCreateImage( cvGetSize(image), 8, 3 );
     hue = cvCreateImage( cvGetSize(image), 8, 1 );
@@ -87,54 +84,29 @@ int main(int argc, char** argv)
                         color, -1, 8, 0 );
     }
 
-	track_window = selection;
-    
-//	cvRectangle( image, cvPoint(track_window.x,track_window.y),cvPoint(track_window.x+track_window.width,track_window.y+track_window.height), CV_RGB(255,0,0) );
-//    cvShowImage( "win", image );
-//    cvWaitKey(0);
-//    cvDestroyWindow("win");
-
-	
-    for(;;)
-    {
-		IplImage* frame = cvQueryFrame( capture );
-		
-		if (!frame) break;
-		cvCopy( frame, image, 0 );
-		cvCvtColor( image, hsv, CV_BGR2HSV );
-    	cvInRangeS( hsv, cvScalar(0,smin,MIN(_vmin,_vmax),0),
+    image = cvLoadImage( "b.png" );
+	track_window.x = 230;
+	track_window.y = 50;
+	track_window.width = 300;
+	track_window.height = 300;
+    cvRectangle( image, cvPoint(track_window.x,track_window.y),cvPoint(track_window.x+track_window.width,track_window.y+track_window.height), CV_RGB(255,0,0) );
+	cvCvtColor( image, hsv, CV_BGR2HSV );
+    cvInRangeS( hsv, cvScalar(0,smin,MIN(_vmin,_vmax),0),
                         cvScalar(180,256,MAX(_vmin,_vmax),0), mask );
-    	cvSplit( hsv, hue, 0, 0, 0 );
+    cvSplit( hsv, hue, 0, 0, 0 );
 
-    	cvCalcBackProject( &hue, backproject, hist );
-    	cvAnd( backproject, mask, backproject, 0 );
-    	cvCamShift( backproject, track_window,
-    	            cvTermCriteria( CV_TERMCRIT_EPS | CV_TERMCRIT_ITER, 10, 1 ),
-    	            &track_comp, &track_box );
+    cvCalcBackProject( &hue, backproject, hist );
+    cvAnd( backproject, mask, backproject, 0 );
+    cvCamShift( backproject, track_window,
+                cvTermCriteria( CV_TERMCRIT_EPS | CV_TERMCRIT_ITER, 10, 1 ),
+                &track_comp, &track_box );
+    track_window = track_comp.rect;
+    
+	cvEllipseBox( image, track_box, CV_RGB(255,0,0), 3, CV_AA, 0 );
 
-    	track_window = track_comp.rect;
+    cvShowImage( "win", image );
 
-/*		CvRect roi;
-		roi.x = (int)track_box.center.x - track_box.size.width/2;
-		roi.y = (int)track_box.center.y - track_box.size.height/2;
-		roi.width = (int)track_box.size.width;
-		roi.height = (int)track_box.size.height;
-
-		cvSetImageROI( image, roi );
-        cvXorS( image, cvScalarAll(255), image, 0 );
-        cvResetImageROI( image );*/
-
-		cvEllipseBox( image, track_box, CV_RGB(255,0,0), 3, CV_AA, 0 );
-
-		//CvPoint center;
-		//center.x = (int)track_box.center.x;
-		//center.y = (int)track_box.center.y;
-		//cvCircle(image, center ,track_box.size.width/2,CV_RGB(255,0,0), 1 );
-		
-	    cvWaitKey(10);
-
-    	cvShowImage( "win", image );
-	}
+    cvWaitKey(0);
 
     cvDestroyWindow("win");
 
