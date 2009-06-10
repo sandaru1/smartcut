@@ -11,6 +11,8 @@ def getContent():
   t = []
   for i in thumbs:
     num = i.split('.')[0]
+    if num == "final":
+      continue
     t.append({'name' : num,'url' : 'http://localhost/smartcut/thumbs/'+num+'.jpg'})
   return json.dumps({'images':t})
 

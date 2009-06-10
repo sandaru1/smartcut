@@ -24,6 +24,7 @@ Ext.onReady(function(){
 	//var v = new Ext.Panel({title:'Player',renderTo:'player',height:400,items:[flowPlayer]});
 
 	var timeline = new Timeline({renderTo:'timeline'});
+  var effects = new Effects({renderTo:'effects'});
 	win.show();
 
   $f("flowPlayer", "/flash/flowplayer.swf", { 

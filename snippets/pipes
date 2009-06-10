@@ -29,3 +29,4 @@ gnome-video-thumbnailer -j g.flv 1.jpg
 // merge two streams
 gst-launch gnlcomposition. \(  name=myvideocomp gnlsource. \( start=0  duration=1000000000 gnlfilesource media-start=0 media-duration=1000000000 location=/media/data/k.avi \) gnlsource. \( name=vsource2 start=1000000000  duration=1000000000 gnlfilesource location=/media/data/o.avi  media-start=0 media-duration=1000000000 \) \) myvideocomp. ! xvimagesink
 
+mencoder -oac copy -ovc copy -o "joined.avi" "1.avi" "2.avi"

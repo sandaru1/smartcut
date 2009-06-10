@@ -1,0 +1,9 @@
+.effect {
+	float:left;
+	margin: 4px;
+	margin-right: 0;
+	padding: 5px;
+  width:90%;
+  cursor:pointer;
+}
+

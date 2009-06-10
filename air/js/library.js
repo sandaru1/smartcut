@@ -21,7 +21,6 @@ Ext.onReady(function(){
     	params : { file : fibasic.getValue() },
     	method: 'GET',
     	success: function ( result, request ) { 
-    		Ext.MessageBox.alert('Success', 'File Uploaded Successfully'); 
         store.load();
     	},
     	failure: function ( result, request) { 

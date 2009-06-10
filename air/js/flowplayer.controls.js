@@ -209,7 +209,7 @@ $f.addPlugin("controls", function(wrap, options) {
 	
 	play.onclick = function() {
 		if (self.isLoaded()) {
-			self.toggle();		
+			self.toggle();
 		} else {
 			self.play();	
 		}						

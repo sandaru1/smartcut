@@ -24,7 +24,8 @@ Ext.extend(Timeline, Ext.Panel, {
           multiSelect:true
         });
     this.items = [this.dv];
-    this.tbar = [{xtype:'button',text:'Play'},{xtype:'button',text:'Stop'},' ','-',
+    this.tbar = [{xtype:'button',text:'Play',handler: this.onPlayPress, scope: this},
+          {xtype:'button',text:'Stop',handler: this.onStopPress, scope: this},' ','-',
     			{xtype:'button',text:'Media Library',handler: this.onAddPress, scope: this},
     			{xtype:'button',text:'Delete', handler: this.onDeletePress, scope: this}];
 
@@ -36,6 +37,39 @@ Ext.extend(Timeline, Ext.Panel, {
     		chrome:'none'
     });
 	},
+
+  onStopPress: function(btn) {
+    $f("flowPlayer").stop();
+  },
+
+  onPlayPress: function(btn) {
+    var records = this.dv.store.getRange(0,this.dv.store.getCount());
+    var data = new Array();
+    for(i=0;i<records.length;i++)
+      data.push(records[i].data);
+    $f("flowPlayer").stop();
+    $f("flowPlayer").setClip('http://localhost/loading.flv');
+    this.setTitle("Processing");
+    Ext.Ajax.request({
+    	url : 'http://localhost:8080/Render', 
+    	params : { timeline : Ext.util.JSON.encode(data) },
+    	method: 'GET',
+    	success: function ( result, request ) { 
+        Ext.getCmp("timeline").setTitle("Timeline");
+        $f("flowPlayer").setClip('http://localhost/smartcut/flv/final.flv');
+        $f("flowPlayer").play();
+    	},
+    	failure: function ( result, request) { 
+    		Ext.MessageBox.alert('Failed', 'An error occurred');
+    	} 
+    });
+  },
+
+  addEffect: function(effect) {
+    recs = this.dv.getSelectedRecords();
+    if (recs.length==0) return;
+    recs[0].data['effects'].push(effect.data['name']);
+  },
 
   onDeletePress: function(btn) {
     recs = this.dv.getSelectedRecords();
