@@ -25,7 +25,11 @@ def uploadClip(path):
   f.close()
   num = str(num)
   shutil.copyfile(path,'./media/videos/' + num + '.avi')
+  # thumb
   os.system('gnome-video-thumbnailer -j ./media/videos/' + num + '.avi ./media/thumbs/' + num + '.jpg')
+  # frame
+  os.system("ffmpeg -i ./media/videos/" + num +".avi -r 1 -t 00:00:01 -f image2 ./media/frames/"+num+".jpg");
+  #os.system("gst-launch gnlfilesource location=./media/videos/" + num +".avi media-start=0 media-duration=1 ! ffmpegcolorspace ! jpegenc ! filesink location=./media/frames/"+num+".jpg")
   # convert to flv
   os.system('gst-launch-0.10 filesrc location=./media/videos/'+num+'.avi ! decodebin ! queue ! ffenc_flv ! ffmux_flv ! filesink location=./media/flv/'+num+'.flv')
 

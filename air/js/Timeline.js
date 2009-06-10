@@ -71,6 +71,12 @@ Ext.extend(Timeline, Ext.Panel, {
     recs[0].data['effects'].push(effect.data['name']);
   },
 
+  addEffectPipe: function(pipe) {
+    recs = this.dv.getSelectedRecords();
+    if (recs.length==0) return;
+    recs[0].data['effects'].push(pipe);
+  },
+
   onDeletePress: function(btn) {
     recs = this.dv.getSelectedRecords();
     if (recs.length==0) return;

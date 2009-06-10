@@ -62,6 +62,14 @@ libgstfaceblur_la_LINK = $(LIBTOOL) --tag=CC \
 	$(libgstfaceblur_la_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link \
 	$(CCLD) $(libgstfaceblur_la_CFLAGS) $(CFLAGS) \
 	$(libgstfaceblur_la_LDFLAGS) $(LDFLAGS) -o $@
+libgstobjblur_la_DEPENDENCIES = $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+am_libgstobjblur_la_OBJECTS = libgstobjblur_la-gstobjblur.lo
+libgstobjblur_la_OBJECTS = $(am_libgstobjblur_la_OBJECTS)
+libgstobjblur_la_LINK = $(LIBTOOL) --tag=CC \
+	$(libgstobjblur_la_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link \
+	$(CCLD) $(libgstobjblur_la_CFLAGS) $(CFLAGS) \
+	$(libgstobjblur_la_LDFLAGS) $(LDFLAGS) -o $@
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -74,8 +82,9 @@ CCLD = $(CC)
 LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	--mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
-SOURCES = $(libgstfaceblur_la_SOURCES)
-DIST_SOURCES = $(libgstfaceblur_la_SOURCES)
+SOURCES = $(libgstfaceblur_la_SOURCES) $(libgstobjblur_la_SOURCES)
+DIST_SOURCES = $(libgstfaceblur_la_SOURCES) \
+	$(libgstobjblur_la_SOURCES)
 HEADERS = $(noinst_HEADERS)
 ETAGS = etags
 CTAGS = ctags
@@ -213,13 +222,18 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-plugin_LTLIBRARIES = libgstfaceblur.la
-noinst_HEADERS = gstfaceblur.h
+plugin_LTLIBRARIES = libgstfaceblur.la libgstobjblur.la
+noinst_HEADERS = gstfaceblur.h gstobjblur.h
 libgstfaceblur_la_SOURCES = gstfaceblur.c
 libgstfaceblur_la_CFLAGS = $(GST_CFLAGS) $(GST_BASE_CFLAGS) $(OPENCV_CFLAGS)
 libgstfaceblur_la_LIBADD = $(GST_PLUGINS_BASE_LIBS) -lgstvideo-@GST_MAJORMINOR@ $(OPENCV_LIBS) $(GST_BASE_LIBS) $(GST_LIBS)
 libgstfaceblur_la_LDFLAGS = $(GST_PLUGIN_LDFLAGS)
 libgstfaceblur_la_LIBTOOLFLAGS = --tag=disable-static
+libgstobjblur_la_SOURCES = gstobjblur.c
+libgstobjblur_la_CFLAGS = $(GST_CFLAGS) $(GST_BASE_CFLAGS) $(OPENCV_CFLAGS)
+libgstobjblur_la_LIBADD = $(GST_PLUGINS_BASE_LIBS) -lgstvideo-@GST_MAJORMINOR@ $(OPENCV_LIBS) $(GST_BASE_LIBS) $(GST_LIBS)
+libgstobjblur_la_LDFLAGS = $(GST_PLUGIN_LDFLAGS)
+libgstobjblur_la_LIBTOOLFLAGS = --tag=disable-static
 all: all-am
 
 .SUFFIXES:
@@ -282,6 +296,8 @@ clean-pluginLTLIBRARIES:
 	done
 libgstfaceblur.la: $(libgstfaceblur_la_OBJECTS) $(libgstfaceblur_la_DEPENDENCIES) 
 	$(libgstfaceblur_la_LINK) -rpath $(plugindir) $(libgstfaceblur_la_OBJECTS) $(libgstfaceblur_la_LIBADD) $(LIBS)
+libgstobjblur.la: $(libgstobjblur_la_OBJECTS) $(libgstobjblur_la_DEPENDENCIES) 
+	$(libgstobjblur_la_LINK) -rpath $(plugindir) $(libgstobjblur_la_OBJECTS) $(libgstobjblur_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -290,6 +306,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgstfaceblur_la-gstfaceblur.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgstobjblur_la-gstobjblur.Plo@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -318,6 +335,13 @@ libgstfaceblur_la-gstfaceblur.lo: gstfaceblur.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='gstfaceblur.c' object='libgstfaceblur_la-gstfaceblur.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(libgstfaceblur_la_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgstfaceblur_la_CFLAGS) $(CFLAGS) -c -o libgstfaceblur_la-gstfaceblur.lo `test -f 'gstfaceblur.c' || echo '$(srcdir)/'`gstfaceblur.c
+
+libgstobjblur_la-gstobjblur.lo: gstobjblur.c
+@am__fastdepCC_TRUE@	$(LIBTOOL) --tag=CC $(libgstobjblur_la_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgstobjblur_la_CFLAGS) $(CFLAGS) -MT libgstobjblur_la-gstobjblur.lo -MD -MP -MF $(DEPDIR)/libgstobjblur_la-gstobjblur.Tpo -c -o libgstobjblur_la-gstobjblur.lo `test -f 'gstobjblur.c' || echo '$(srcdir)/'`gstobjblur.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/libgstobjblur_la-gstobjblur.Tpo $(DEPDIR)/libgstobjblur_la-gstobjblur.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='gstobjblur.c' object='libgstobjblur_la-gstobjblur.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(libgstobjblur_la_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgstobjblur_la_CFLAGS) $(CFLAGS) -c -o libgstobjblur_la-gstobjblur.lo `test -f 'gstobjblur.c' || echo '$(srcdir)/'`gstobjblur.c
 
 mostlyclean-libtool:
 	-rm -f *.lo

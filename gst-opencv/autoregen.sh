@@ -1,2 +1,2 @@
 #!/bin/sh
-./autogen.sh clean $@
+./autogen.sh  $@
