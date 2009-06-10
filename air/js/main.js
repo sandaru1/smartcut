@@ -21,11 +21,19 @@ Ext.onReady(function(){
 		instance: window.nativeWindow		
 	});
 
-
-	var v = new Ext.air.VideoPanel({renderTo:'player',width:200,height:200,url:'http://localhost/g.flv'});
+	//var v = new Ext.Panel({title:'Player',renderTo:'player',height:400,items:[flowPlayer]});
 
 	var timeline = new Timeline({renderTo:'timeline'});
 	win.show();
+
+  $f("flowPlayer", "/flash/flowplayer.swf", { 
+        clip: { 
+            autoPlay: false, 
+            autoBuffering: true
+        }, 
+        plugins: {controls: null} 
+    }).controls("flowBar", {}); 
+
 /*
   var object = new Ext.air.NativeWindow({
     		file:'object.html',

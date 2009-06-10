@@ -7,3 +7,25 @@ gst-launch-0.10 filesrc location=/media/data/g.avi ! decodebin name=decoder deco
 gst-launch-0.10 filesrc location=g.avi ! decodebin ! queue ! ffenc_flv ! ffmux_flv ! filesink location=g.flv
 
 gst-launch-0.10 gnlfilesource location=/media/data/k.avi start=0 nmedia-start=0 media-duration=10000000000 duration=10000000000 ! xvimagesink
+
+gst-launch-0.10 gnlfilesource location=/media/data/s.avi media-start=7257257257 media-duration=10260260260 ! queue ! jpegenc ! avimux ! filesink location=aa.avi
+
+//mjpegtools
+
+mencoder -lavcopts vcodec=mjpeg -ovc lavc o.avi -o K.avi -nosound
+lav2yuv +p -S ss.st K.avi
+lavinfo +p
+
+// split - 10 seconds
+mencoder -ss 01:30:24 -endpos 00:00:10 -oac copy -ovc copy in.avi -o out.avi
+
+// slow down
+gst-launch-0.10 gnlfilesource location=/media/data/k.avi start=0 media-start=0 media-duration=10000000000 duration=50000000000 ! xvimagesink
+
+// thumbnail generation
+gnome-video-thumbnailer -j g.flv 1.jpg
+
+
+// merge two streams
+gst-launch gnlcomposition. \(  name=myvideocomp gnlsource. \( start=0  duration=1000000000 gnlfilesource media-start=0 media-duration=1000000000 location=/media/data/k.avi \) gnlsource. \( name=vsource2 start=1000000000  duration=1000000000 gnlfilesource location=/media/data/o.avi  media-start=0 media-duration=1000000000 \) \) myvideocomp. ! xvimagesink
+

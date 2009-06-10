@@ -11,39 +11,55 @@ Ext.extend(Timeline, Ext.Panel, {
   autoScroll:true,
 
   initComponent : function(){
-    var store = new Ext.data.JsonStore({
-        url: 'http://localhost/ext/examples/view/get-images.php',
+    var store = new Ext.data.SimpleStore({
         root: 'images',
-        fields: ['name', 'url']
+        fields: ['name', 'url','effects']
     });
-    store.load();
+    //store.load();
 
-    var dv = new Ext.DataView({
+    this.dv = new Ext.DataView({
           store: store,
           tpl: Templates.timeline,
           itemSelector:'div.clip',
           multiSelect:true
         });
-    this.items = [dv];
+    this.items = [this.dv];
     this.tbar = [{xtype:'button',text:'Play'},{xtype:'button',text:'Stop'},' ','-',
-    			{xtype:'button',text:'Add New Clip',handler: this.onAddPress, scope: this},
-    			{xtype:'button',text:'Auto Split'},{xtype:'button',text:'Delete'}];
+    			{xtype:'button',text:'Media Library',handler: this.onAddPress, scope: this},
+    			{xtype:'button',text:'Delete', handler: this.onDeletePress, scope: this}];
 
     Timeline.superclass.initComponent.call(this);
     this.library = new Ext.air.NativeWindow({
     		file:'library.html',
-    		width:500,
+    		width:800,
     		height:400,
     		chrome:'none'
     });
 	},
 
+  onDeletePress: function(btn) {
+    recs = this.dv.getSelectedRecords();
+    if (recs.length==0) return;
+    for(var i=0;i<recs.length;i++) {
+      this.dv.store.remove(recs[i]);
+    }
+  },
+
 	onAddPress: function(btn) {
 		this.library.show();
 	},
 
-	addClip: function(clip) {
-		alert(clip);
+	addClip: function(n,url) {
+    var clip = Ext.data.Record.create([
+    {name: 'name', mapping: 'name'},
+    {name: 'url', mapping: 'url'},
+    {name: 'effects',mapping: 'effects'}]);
+
+    var newClip = new clip({
+    'name': n,
+    'url': url,
+    'effects':new Array()});
+    this.dv.store.add(newClip);
 	},
 
 	hideLibrary: function() {

@@ -8,6 +8,7 @@
 	<link rel="stylesheet" type="text/css" href="css/timeline.css" />
 	<link rel="stylesheet" type="text/css" href="css/main.css" />
   <link rel="stylesheet" type="text/css" href="css/file-upload.css"/>
+	<link rel="stylesheet" type="text/css" href="css/flowplayer.css" />
 
   <script type="text/javascript" src="adobe/AIRAliases.js"></script>
 	
@@ -15,6 +16,8 @@
   <script type="text/javascript" src="ext-2.0/ext-all.js"></script>
 	
 	<script type="text/javascript" src="ext-air/ext-air.js"></script>
+	<script type="text/javascript" src="js/flowplayer.js"></script>
+	<script type="text/javascript" src="js/flowplayer.controls.js"></script>
 	
 	<script type="text/javascript" src="js/ext-config.js"></script>
 	<script type="text/javascript" src="js/Templates.js"></script>
@@ -22,19 +25,21 @@
 	<script type="text/javascript" src="js/ChromeViewport.js"></script>
   <script type="text/javascript" src="js/FileUploadField.js"></script>
 	<script type="text/javascript" src="js/library.js"></script>
-
-</head>
-<body>
   <style>
     #clips-div, #right {
       float:left;
     }
   </style>
+</head>
+<body>
   <div id="content">
     <div id="clips-div">
     </div>
     <div id="right">
       <div id="player">
+        <a href="" style="display:block;width:500px;height:230px;" id="flowPlayer"> 
+        </a> 
+        <div class="hulu" id="flowBar"></div>
       </div>
       <div id="upload-div">
       </div>
