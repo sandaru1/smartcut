@@ -369,14 +369,19 @@ gst_objblur_transform (GstBaseTransform * base, GstBuffer * inbuf, GstBuffer * o
     }
 
   }
-
+g_printf("cvtColor\n");
 	cvCvtColor( image, objblur->hsv, CV_BGR2HSV );
+g_printf("inRange\n");
   cvInRangeS( objblur->hsv, cvScalar(0,smin,MIN(_vmin,_vmax),0),
                   cvScalar(180,256,MAX(_vmin,_vmax),0), objblur->mask );
+g_printf("split\n");
   cvSplit( objblur->hsv, objblur->hue, 0, 0, 0 );
 
+g_printf("backproject\n");
   cvCalcBackProject( &(objblur->hue), objblur->backproject, objblur->hist );
+g_printf("cvAnd\n");
  	cvAnd( objblur->backproject, objblur->mask, objblur->backproject, 0 );
+g_printf("camshift %d %d %d %d\n",objblur->selection.x,objblur->selection.y,objblur->selection.width,objblur->selection.height);
   cvCamShift( objblur->backproject, objblur->selection,
     	            cvTermCriteria( CV_TERMCRIT_EPS | CV_TERMCRIT_ITER, 10, 1 ),
     	            &(objblur->track_comp), &(objblur->track_box) );

@@ -40,12 +40,12 @@ int main(int argc, char** argv)
     CvMemStorage* storage = cvCreateMemStorage(0);
 	CvRect selection;
     CvCapture* capture = 0;
-	capture = cvCaptureFromAVI( "/media/data/o.avi" ); 
+	capture = cvCaptureFromAVI( "/home/sandaru1/Desktop/smartcut/server/media/videos/53.avi" ); 
 
-	selection.x = 320;
-	selection.y = 110;
-	selection.width = 70;
-	selection.height = 60;
+	selection.x = 270;
+	selection.y = 140;
+	selection.width = 113;
+	selection.height = 136;
 
     cvNamedWindow("win", 1);
 
@@ -90,7 +90,7 @@ int main(int argc, char** argv)
 	track_window = selection;
     
 //	cvRectangle( image, cvPoint(track_window.x,track_window.y),cvPoint(track_window.x+track_window.width,track_window.y+track_window.height), CV_RGB(255,0,0) );
-//    cvShowImage( "win", image );
+ //   cvShowImage( "win", image );
 //    cvWaitKey(0);
 //    cvDestroyWindow("win");
 
