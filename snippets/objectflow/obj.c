@@ -22,7 +22,6 @@ int main(int argc, char** argv)
 {
     CvCapture* capture = 0;
 
-
           CvRect r;
           r.x = 280;
           r.y = 150;
@@ -37,7 +36,7 @@ int main(int argc, char** argv)
         return -1;
     }
 
-    cvNamedWindow( "LkDemo", 0 );
+    cvNamedWindow( "output", 1 );
 
     for(;;)
     {
@@ -134,19 +133,18 @@ int main(int argc, char** argv)
         for(i=0;i<count;i++) {
           float dx = abs(points[1][i].x-X);
           float dy = abs(points[1][i].y-Y);
-          if (dx<r.width && dy<r.height) {
+          if (dx<(r.width/2) && dy<(r.height/2)) {
             points[0][nc++] = points[1][i];
           }
         }
         count = nc;
         need_to_init = 0;
-        cvShowImage( "LkDemo", image );
-
+        cvShowImage( "output", image );
         c = cvWaitKey(10);
     }
 
     cvReleaseCapture( &capture );
-    cvDestroyWindow("LkDemo");
+    cvDestroyWindow("output");
 
     return 0;
 }

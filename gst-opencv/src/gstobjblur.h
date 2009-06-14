@@ -52,13 +52,8 @@ struct _GstObjblur
   GstVideoFilter videofilter;
 
   /* opencv */
-  CvMemStorage* storage;
-	CvRect selection;
   int done;
-  IplImage *hsv, *hue, *mask, *backproject, *histimg;
-  CvHistogram *hist;
-  CvBox2D track_box;
-  CvConnectedComp track_comp;
+  IplImage *icon;
 
   /* format */
   gint width;

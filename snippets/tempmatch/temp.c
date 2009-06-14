@@ -1,6 +1,50 @@
 #include <cv.h> 
 #include <highgui.h>
 #include <stdio.h>
+#include <math.h>
+
+#define PI 3.14159265
+#define TWO_PI 3.14159265*2.0
+
+void getHSV(int RI,int GI,int BI,double *H,double *S) {
+  double R = RI/255.0;
+  double G = GI/255.0;
+  double B = BI/255.0;
+
+  double max = MAX(R,MAX(G,B));
+  double min = MIN(R,MIN(G,B));
+
+  double l = (max+min)/2.0;
+
+  if (max==min) {
+    *H = 0;
+    *S = 0;
+    return;
+  }
+  if (max==R) {
+    *H = (60 * ((G-B)/(double)(max-min)));
+  } else if (max==G) {
+    *H = (60 * (B-R)/(double)(max-min) + 120);
+  } else if (max==B) {
+    *H = (60 * (R-G)/(double)(max-min) + 240);
+  }
+  
+/*  if (l<=0.5) {
+    *S = (max - min)/(2 * l);
+  } else {
+    *S = (max - min)/(2-2*l);
+  }*/
+  *S = (max-min)/max;
+}
+
+float lerp(float t, float a, float b) {
+		return a + t * (b - a);
+}
+
+
+float clamp(float x, float a, float b) {
+		return (x < a) ? a : (x > b) ? b : x;
+}
 
 int main(int argc, char** argv) {
   double m,M;
@@ -12,7 +56,19 @@ int main(int argc, char** argv) {
   r.x = 280;
   r.y = 150;
   r.width=100;
-  r.height =150;    
+  r.height =140;
+
+  // sparkle
+  int rays = 100;
+  int radius = r.width/2;
+  int amount = 10;
+
+	float rayLengths[100];
+	for (int i = 0; i < rays; i++) {
+			rayLengths[i] = radius + radius * rand()/(float)RAND_MAX;
+  }
+  // end - sparkle
+
 
   capture = cvCaptureFromAVI("/media/data/MVI_2488.AVI");
   cvNamedWindow( "output", 1 ); 
@@ -86,7 +142,7 @@ int main(int argc, char** argv) {
   IplImage* result = cvCreateImage( resultSize, IPL_DEPTH_32F, 1 );
   
   cvMatchTemplate( copyOfSource, copyOfTarget, result, CV_TM_CCORR_NORMED );
-  
+
   // release memory we don't need anymore
   cvReleaseImage( &copyOfSource );
   cvReleaseImage( &copyOfTarget );
@@ -96,6 +152,95 @@ int main(int argc, char** argv) {
   point2.x *= 4;
   point2.y *= 4;
 
+/*
+// sparkle
+
+  int i,j;
+  for(i=0;i<image->width;i++)
+    for(j=0;j<image->height;j++) {
+      int pos = i + j*image->width;
+      pos = pos * 3;
+  float dx = i-(point2.x+icon->width/2);
+	float dy = j-(point2.y+icon->height/2);
+	float distance = dx*dx+dy*dy;
+	float angle = (float)atan2(dy, dx);
+	float d = (angle+PI) / (TWO_PI) * rays;
+	int ray_pos = (int)d;
+	float f = d - ray_pos;
+
+  float length = lerp(f, rayLengths[ray_pos % rays], rayLengths[(ray_pos+1) % rays]);
+	float g = length*length / (distance+0.0001f);
+//	g = (float)pow(g, (100-amount) / 50.0);
+	f -= 0.5f;
+	f = 1 - f*f;
+	f *= g;
+	f = clamp(f, 0, 0.5);
+//printf("%f\n",f);
+
+	image->imageData[pos+2] = lerp(f, image->imageData[pos+2], 255);
+	image->imageData[pos+1] = lerp(f, image->imageData[pos+1], 255);
+	image->imageData[pos] = lerp(f, image->imageData[pos], 255);
+
+
+    }
+*/
+  
+
+/*
+  // enlarge
+  CvRect selection;
+  selection.x = point2.x;
+  selection.y = point2.y;
+  selection.width = r.width;
+  selection.height = r.height;
+
+IplImage* selected = cvCreateImage( cvSize(selection.width,selection.height), 8, 3 );
+cvSetImageROI( image, selection);
+cvCopy( image, selected, 0 );
+cvResetImageROI(image);
+
+IplImage* selectedLarge = cvCreateImage( cvSize(selection.width*2,selection.height*2), 8, 3 );
+
+cvResize(selected, selectedLarge, CV_INTER_LINEAR );
+
+selection.x = MAX(0,point2.x - r.width/2);
+selection.y = MAX(0,point2.y - r.height/2);
+selection.width = r.width*2;
+selection.height = r.height*2;
+
+cvSetImageROI(image, selection);
+cvCopy( selectedLarge, image, 0 );
+cvResetImageROI(image);*/
+
+/*
+  // color convert
+  double fromS,fromH;
+  getHSV(255,0,0,&fromH,&fromS);
+  double toR = 1.0;
+  double toG = 1.0;
+  double toB = 0;
+
+  int i,j;
+  for(i=0;i<icon->width;i++)
+    for(j=0;j<icon->height;j++) {
+      int pos = (point2.x + i) + (point2.y + j)*image->width;
+      pos = pos * 3;
+      double h,s;
+      getHSV(image->imageData[pos+2],image->imageData[pos+1],image->imageData[pos],&h,&s);
+      double hueShift = abs(h-fromH)/60.0;
+      if (hueShift < 1 && s > 0 ) {
+        double alpha = 1 - (1 - hueShift) * s;
+
+        double RD = image->imageData[pos+2]/255.0;
+        double GD = image->imageData[pos+1]/255.0;
+        double BD = image->imageData[pos]/255.0;
+
+        image->imageData[pos+2] = (toR * alpha)*255;
+        image->imageData[pos+1] = (toG * alpha)*255;
+        image->imageData[pos] = (toB * alpha)*255;
+      }
+    }
+*/
   cvRectangle( image, point2,cvPoint( point2.x + icon->width, point2.y + icon->height ), cvScalar( 0, 0, 255, 0 ), 1, 0, 0 ); 
   cvShowImage( "output", image );
 

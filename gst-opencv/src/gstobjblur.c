@@ -153,7 +153,6 @@ gst_objblur_init (GstObjblur * objblur, GstObjblurClass * g_class)
   GstElementClass *klass = GST_ELEMENT_GET_CLASS (objblur);
   GST_DEBUG_OBJECT (objblur, "gst_objblur_init");
 
-  objblur->storage = cvCreateMemStorage(0);
   objblur->done = 0;
 
   /* properties */
@@ -270,21 +269,28 @@ done:
   return res;
 }
 
-CvScalar hsv2rgb( float hue )
-{
-    int rgb[3], p, sector;
-    static const int sector_data[][3]=
-        {{0,2,1}, {1,2,0}, {1,0,2}, {2,0,1}, {2,1,0}, {0,1,2}};
-    hue *= 0.033333333333333333333333333333333f;
-    sector = cvFloor(hue);
-    p = cvRound(255*(hue - sector));
-    p ^= sector & 1 ? 255 : 0;
+IplImage* shrinkImage(IplImage *image) {
+  IplImage* temp = cvCloneImage(image);
+  CvSize sourceSize = cvGetSize( temp );
+  int depth = temp->depth;
+  int numChannels = temp->nChannels;
+  int ii;
 
-    rgb[sector_data[sector][0]] = 255;
-    rgb[sector_data[sector][1]] = 0;
-    rgb[sector_data[sector][2]] = p;
-
-    return cvScalar(rgb[2], rgb[1], rgb[0],0);
+  for(ii = 0; ii < 2; ii++ )
+  {
+    sourceSize.width /= 2;
+    sourceSize.height /= 2;
+    
+    IplImage* smallSource = NULL;
+    smallSource = cvCreateImage( sourceSize, depth, numChannels );
+    cvPyrDown( temp, smallSource, CV_GAUSSIAN_5x5 );
+    
+    // prepare for next loop, if any
+    cvReleaseImage( &temp );
+    temp = cvCloneImage( smallSource );
+    cvReleaseImage( &smallSource );
+  }
+  return temp;
 }
 
 static GstFlowReturn
@@ -295,15 +301,12 @@ gst_objblur_transform (GstBaseTransform * base, GstBuffer * inbuf, GstBuffer * o
   guint8 *out;
   guint size;
   int i,k,pos,j,R,G,B,a;
-  IplImage *image;
-  //double t;
-  int hdims = 16;
-  float hranges_arr[] = {0,180};
-  float* hranges = hranges_arr;
-  int vmin = 10, vmax = 256, smin = 30;
-	int _vmin = vmin, _vmax = vmax;
-  int bin_w,c;
+  IplImage *temp,*temp2,*image;
+  CvRect selection;
+  double m,M;
+  CvPoint point1; CvPoint point2;
 
+  //double t;
   //t = (double)cvGetTickCount();
 
   objblur = GST_OBJBLUR (base);
@@ -317,100 +320,70 @@ gst_objblur_transform (GstBaseTransform * base, GstBuffer * inbuf, GstBuffer * o
 
   if (size != objblur->size)
     goto wrong_size;
-  image = cvCreateImage(cvSize(objblur->width,objblur->height), 8, 3 );
+
+  	selection.x = objblur->x1;
+  	selection.y = objblur->y1;
+  	selection.width = objblur->x2 - objblur->x1;
+  	selection.height = objblur->y2 - objblur->y1;
+
+  temp = cvCreateImage(cvSize(objblur->width,objblur->height), 8, 3 );
   for(i=0;i<objblur->height;i++)
     for(k=0;k<objblur->width;k++) {
 		pos = (i * objblur->width + k) * 3;
-		image->imageData[ pos ] = data[pos + 2];
-		image->imageData[ pos + 1 ] = data[pos + 1];
-		image->imageData[ pos + 2 ] = data[pos];
+		temp->imageData[ pos ] = data[pos + 2];
+		temp->imageData[ pos + 1 ] = data[pos + 1];
+		temp->imageData[ pos + 2 ] = data[pos];
 	}
+
+  image = shrinkImage(temp);
 
   if (objblur->done==0) {
     objblur->done = 1;
-  	objblur->selection.x = objblur->x1;
-  	objblur->selection.y = objblur->y1;
-  	objblur->selection.width = objblur->x2 - objblur->x1;
-  	objblur->selection.height = objblur->y2 - objblur->y1;
 
-    objblur->hsv = cvCreateImage( cvGetSize(image), 8, 3 );
-    objblur->hue = cvCreateImage( cvGetSize(image), 8, 1 );
-    objblur->mask = cvCreateImage( cvGetSize(image), 8, 1 );
-    objblur->backproject = cvCreateImage( cvGetSize(image), 8, 1 );
-    objblur->hist = cvCreateHist( 1, &hdims, CV_HIST_ARRAY, &hranges, 1 );
-    objblur->histimg = cvCreateImage( cvSize(320,200), 8, 3 );
-    cvZero( objblur->histimg );
+    temp2 = cvCreateImage( cvSize(selection.width,selection.height), 8, 3 );
+    cvSetImageROI( temp, selection);
+    cvCopy( temp, temp2, 0 );
+    cvResetImageROI(temp);
+    
+    objblur->icon = shrinkImage(temp2);
 
-	  cvCvtColor( image, objblur->hsv, CV_BGR2HSV );
-    cvCvtColor( image, objblur->hsv, CV_BGR2HSV );
-
-	  cvInRangeS( objblur->hsv, cvScalar(0,smin,MIN(_vmin,_vmax),0),
-                        cvScalar(180,256,MAX(_vmin,_vmax),0), objblur->mask );
-	  cvSplit( objblur->hsv, objblur->hue, 0, 0, 0 );
-
-    float max_val = 0.f;
-    cvSetImageROI( objblur->hue, objblur->selection );
-    cvSetImageROI( objblur->mask, objblur->selection );
-    cvCalcHist( &(objblur->hue), objblur->hist, 0, objblur->mask );
-    cvGetMinMaxHistValue( objblur->hist, 0, &max_val, 0, 0 );
-	  cvConvertScale( objblur->hist->bins, objblur->hist->bins, max_val ? 255. / max_val : 0., 0 );
-	  cvResetImageROI( objblur->hue );
-    cvResetImageROI( objblur->mask );
-
-    cvZero( objblur->histimg );
-    bin_w = objblur->histimg->width / hdims;
-    for( i = 0; i < hdims; i++ )
-    {
-        int val = cvRound( cvGetReal1D(objblur->hist->bins,i) * objblur->histimg->height/255 );
-        CvScalar color = hsv2rgb(i*180.f/hdims);
-        cvRectangle( objblur->histimg, cvPoint(i*bin_w,objblur->histimg->height),
-                        cvPoint((i+1)*bin_w,objblur->histimg->height - val),
-                        color, -1, 8, 0 );
-    }
-
+    cvReleaseImage( &temp2 );
   }
-g_printf("cvtColor\n");
-	cvCvtColor( image, objblur->hsv, CV_BGR2HSV );
-g_printf("inRange\n");
-  cvInRangeS( objblur->hsv, cvScalar(0,smin,MIN(_vmin,_vmax),0),
-                  cvScalar(180,256,MAX(_vmin,_vmax),0), objblur->mask );
-g_printf("split\n");
-  cvSplit( objblur->hsv, objblur->hue, 0, 0, 0 );
 
-g_printf("backproject\n");
-  cvCalcBackProject( &(objblur->hue), objblur->backproject, objblur->hist );
-g_printf("cvAnd\n");
- 	cvAnd( objblur->backproject, objblur->mask, objblur->backproject, 0 );
-g_printf("camshift %d %d %d %d\n",objblur->selection.x,objblur->selection.y,objblur->selection.width,objblur->selection.height);
-  cvCamShift( objblur->backproject, objblur->selection,
-    	            cvTermCriteria( CV_TERMCRIT_EPS | CV_TERMCRIT_ITER, 10, 1 ),
-    	            &(objblur->track_comp), &(objblur->track_box) );
+  CvSize resultSize;
+  resultSize.width = image->width - objblur->icon->width + 1;
+  resultSize.height = image->height - objblur->icon->height + 1;
 
-  objblur->selection = objblur->track_comp.rect;
+  IplImage* result = cvCreateImage( resultSize, IPL_DEPTH_32F, 1 );
+  
+  cvMatchTemplate( image, objblur->icon, result, CV_TM_CCORR_NORMED );
+  
+  // release memory we don't need anymore
+  cvReleaseImage( &temp );
+  cvReleaseImage( &image );
 
-	CvRect roi;
-	roi.x = (int)objblur->track_box.center.x - objblur->track_box.size.width/2;
-	roi.y = (int)objblur->track_box.center.y - objblur->track_box.size.height/2;
-	roi.width = (int)objblur->track_box.size.width;
-	roi.height = (int)objblur->track_box.size.height;
+  cvMinMaxLoc(result, &m, &M, &point1, &point2, NULL); 
 
-//  g_printf("%d %d %d %d\n",roi.x,roi.y,roi.width,roi.height);
+  point2.x *= 4;
+  point2.y *= 4;
+
+  //printf("done %d %d\n",point2.x,point2.y);
 
   //t = (double)cvGetTickCount() - t;
   //g_print( "detection time = %gms\n", t/((double)cvGetTickFrequency()*1000.) );
   memcpy(out,data,size);
 
-		for(k=0;k < roi.height;k++)
-			for(j=0;j < roi.width;j+=10) {
+		for(k=0;k <selection.height;k++)
+			for(j=0;j < selection.width;j+=20) {
 				R = 0; G = 0; B = 0;
-				for(a=0;a<10;a++) {
-					pos = ((k+roi.y) * objblur->width + j + roi.x + a) * 3;
-					R += out[pos]/10;
-					G += out[pos+1]/10;
-					B += out[pos+2]/10;
+				for(a=0;a<20;a++) {
+					pos = ((k+point2.y) * objblur->width + j + point2.x + a) * 3;
+					R += out[pos]/20;
+					G += out[pos+1]/20;
+					B += out[pos+2]/20;
 				}
-				for(a=0;a<10;a++) {
-					pos = ((k+roi.y) * objblur->width + j + roi.x + a) * 3;
+				for(a=0;a<20;a++) {
+					pos = ((k+point2.y) * objblur->width + j + point2.x + a) * 3;
 					out[pos]=R;
 					out[pos+1]=G;
 					out[pos+2]=B;
