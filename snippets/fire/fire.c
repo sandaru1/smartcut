@@ -75,7 +75,7 @@ int lerp(float t,int A, int B) {
 
 int main(int argc, char** argv)
 {
-  int fire[640][480];
+  int fire[640][480][2];
   int palette[256][3];
   int i;
 
@@ -100,27 +100,32 @@ int main(int argc, char** argv)
     int h = image->height;
     int w = image->width;
 
-    for(int x = 0; x < image->width; x++) 
-      fire[x][image->height - 1] = abs(32768 + rand()) % 256;
+    for(int x = 0; x < image->width; x++)  {
+      fire[x][image->height - 1][0] = abs(32768 + rand()) % 256;
+      fire[x][image->height - 1][1] = 129;
+    }
 
     for(int y = 0; y < h - 1; y++)
     for(int x = 0; x < w; x++)
     {
-      fire[x][y] =
-        ((fire[(x - 1 + w) % w][(y + 1) % h]
-        + fire[(x) % w][(y + 1) % h]
-        + fire[(x + 1) % w][(y + 1) % h]
-        + fire[(x) % w][(y + 2) % h])
+      fire[x][y][0] =
+        ((fire[(x - 1 + w) % w][(y + 1) % h][0]
+        + fire[(x) % w][(y + 1) % h][0]
+        + fire[(x + 1) % w][(y + 1) % h][0]
+        + fire[(x) % w][(y + 2) % h][0])
         * 32) / 129;
+      int temp = fire[(x) % w][(y + 1) % h][1];
+      if (temp>1)
+        fire[x][y][1] = temp - 1;
     }
 
     for(int x = 0; x < w; x++)
     for(int y = h-129; y < h; y++)
     {
       int pos = (x+y*w)*3;
-      image->imageData[pos] = lerp((y-h+129)/129.0,image->imageData[pos],palette[fire[x][y]][0]);
-      image->imageData[pos+1] = lerp((y-h+129)/129.0,image->imageData[pos+1],palette[fire[x][y]][1]);
-      image->imageData[pos+2] = lerp((y-h+129)/129.0,image->imageData[pos+2],palette[fire[x][y]][2]);
+      image->imageData[pos] = lerp(fire[x][y][1]/129.0,image->imageData[pos],palette[fire[x][y][0]][0]);
+      image->imageData[pos+1] = lerp(fire[x][y][1]/129.0,image->imageData[pos+1],palette[fire[x][y][0]][1]);
+      image->imageData[pos+2] = lerp(fire[x][y][1]/129.0,image->imageData[pos+2],palette[fire[x][y][0]][2]);
     }
 
 	
