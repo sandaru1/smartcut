@@ -1,0 +1,120 @@
+linking pad video/x-raw-rgb
+sink is already linked
+buffer has 24 bpp, endianness 4321, rgb ff0000 ff00 ff, video/x-raw-rgb, width=(int)560, height=(int)304, framerate=(fraction)25/1, pixel-aspect-ratio=(fraction)1/1, bpp=(int)24, depth=(int)24, red_mask=(int)16711680, green_mask=(int)65280, blue_mask=(int)255, endianness=(int)4321
+generating shifts
+shifts: 16 8 0
+buffer has 24 bpp, endianness 4321, rgb ff0000 ff00 ff, video/x-raw-rgb, width=(int)560, height=(int)304, framerate=(fraction)25/1, pixel-aspect-ratio=(fraction)1/1, bpp=(int)24, depth=(int)24, red_mask=(int)16711680, green_mask=(int)65280, blue_mask=(int)255, endianness=(int)4321
+generating shifts
+shifts: 16 8 0
+buffer has 24 bpp, endianness 4321, rgb ff0000 ff00 ff, video/x-raw-rgb, width=(int)560, height=(int)304, framerate=(fraction)25/1, pixel-aspect-ratio=(fraction)1/1, bpp=(int)24, depth=(int)24, red_mask=(int)16711680, green_mask=(int)65280, blue_mask=(int)255, endianness=(int)4321
+generating shifts
+shifts: 16 8 0
+buffer has 24 bpp, endianness 4321, rgb ff0000 ff00 ff, video/x-raw-rgb, width=(int)560, height=(int)304, framerate=(fraction)25/1, pixel-aspect-ratio=(fraction)1/1, bpp=(int)24, depth=(int)24, red_mask=(int)16711680, green_mask=(int)65280, blue_mask=(int)255, endianness=(int)4321
+generating shifts
+shifts: 16 8 0
+buffer has 24 bpp, endianness 4321, rgb ff0000 ff00 ff, video/x-raw-rgb, width=(int)560, height=(int)304, framerate=(fraction)25/1, pixel-aspect-ratio=(fraction)1/1, bpp=(int)24, depth=(int)24, red_mask=(int)16711680, green_mask=(int)65280, blue_mask=(int)255, endianness=(int)4321
+generating shifts
+shifts: 16 8 0
+buffer has 24 bpp, endianness 4321, rgb ff0000 ff00 ff, video/x-raw-rgb, width=(int)560, height=(int)304, framerate=(fraction)25/1, pixel-aspect-ratio=(fraction)1/1, bpp=(int)24, depth=(int)24, red_mask=(int)16711680, green_mask=(int)65280, blue_mask=(int)255, endianness=(int)4321
+generating shifts
+shifts: 16 8 0
+buffer has 24 bpp, endianness 4321, rgb ff0000 ff00 ff, video/x-raw-rgb, width=(int)560, height=(int)304, framerate=(fraction)25/1, pixel-aspect-ratio=(fraction)1/1, bpp=(int)24, depth=(int)24, red_mask=(int)16711680, green_mask=(int)65280, blue_mask=(int)255, endianness=(int)4321
+generating shifts
+shifts: 16 8 0
+buffer has 24 bpp, endianness 4321, rgb ff0000 ff00 ff, video/x-raw-rgb, width=(int)560, height=(int)304, framerate=(fraction)25/1, pixel-aspect-ratio=(fraction)1/1, bpp=(int)24, depth=(int)24, red_mask=(int)16711680, green_mask=(int)65280, blue_mask=(int)255, endianness=(int)4321
+generating shifts
+shifts: 16 8 0
+buffer has 24 bpp, endianness 4321, rgb ff0000 ff00 ff, video/x-raw-rgb, width=(int)560, height=(int)304, framerate=(fraction)25/1, pixel-aspect-ratio=(fraction)1/1, bpp=(int)24, depth=(int)24, red_mask=(int)16711680, green_mask=(int)65280, blue_mask=(int)255, endianness=(int)4321
+generating shifts
+shifts: 16 8 0
+buffer has 24 bpp, endianness 4321, rgb ff0000 ff00 ff, video/x-raw-rgb, width=(int)560, height=(int)304, framerate=(fraction)25/1, pixel-aspect-ratio=(fraction)1/1, bpp=(int)24, depth=(int)24, red_mask=(int)16711680, green_mask=(int)65280, blue_mask=(int)255, endianness=(int)4321
+generating shifts
+shifts: 16 8 0
+buffer has 24 bpp, endianness 4321, rgb ff0000 ff00 ff, video/x-raw-rgb, width=(int)560, height=(int)304, framerate=(fraction)25/1, pixel-aspect-ratio=(fraction)1/1, bpp=(int)24, depth=(int)24, red_mask=(int)16711680, green_mask=(int)65280, blue_mask=(int)255, endianness=(int)4321
+generating shifts
+shifts: 16 8 0
+buffer has 24 bpp, endianness 4321, rgb ff0000 ff00 ff, video/x-raw-rgb, width=(int)560, height=(int)304, framerate=(fraction)25/1, pixel-aspect-ratio=(fraction)1/1, bpp=(int)24, depth=(int)24, red_mask=(int)16711680, green_mask=(int)65280, blue_mask=(int)255, endianness=(int)4321
+generating shifts
+shifts: 16 8 0
+buffer has 24 bpp, endianness 4321, rgb ff0000 ff00 ff, video/x-raw-rgb, width=(int)560, height=(int)304, framerate=(fraction)25/1, pixel-aspect-ratio=(fraction)1/1, bpp=(int)24, depth=(int)24, red_mask=(int)16711680, green_mask=(int)65280, blue_mask=(int)255, endianness=(int)4321
+generating shifts
+shifts: 16 8 0
+buffer has 24 bpp, endianness 4321, rgb ff0000 ff00 ff, video/x-raw-rgb, width=(int)560, height=(int)304, framerate=(fraction)25/1, pixel-aspect-ratio=(fraction)1/1, bpp=(int)24, depth=(int)24, red_mask=(int)16711680, green_mask=(int)65280, blue_mask=(int)255, endianness=(int)4321
+generating shifts
+shifts: 16 8 0
+buffer has 24 bpp, endianness 4321, rgb ff0000 ff00 ff, video/x-raw-rgb, width=(int)560, height=(int)304, framerate=(fraction)25/1, pixel-aspect-ratio=(fraction)1/1, bpp=(int)24, depth=(int)24, red_mask=(int)16711680, green_mask=(int)65280, blue_mask=(int)255, endianness=(int)4321
+generating shifts
+shifts: 16 8 0
+buffer has 24 bpp, endianness 4321, rgb ff0000 ff00 ff, video/x-raw-rgb, width=(int)560, height=(int)304, framerate=(fraction)25/1, pixel-aspect-ratio=(fraction)1/1, bpp=(int)24, depth=(int)24, red_mask=(int)16711680, green_mask=(int)65280, blue_mask=(int)255, endianness=(int)4321
+generating shifts
+shifts: 16 8 0
+buffer has 24 bpp, endianness 4321, rgb ff0000 ff00 ff, video/x-raw-rgb, width=(int)560, height=(int)304, framerate=(fraction)25/1, pixel-aspect-ratio=(fraction)1/1, bpp=(int)24, depth=(int)24, red_mask=(int)16711680, green_mask=(int)65280, blue_mask=(int)255, endianness=(int)4321
+generating shifts
+shifts: 16 8 0
+buffer has 24 bpp, endianness 4321, rgb ff0000 ff00 ff, video/x-raw-rgb, width=(int)560, height=(int)304, framerate=(fraction)25/1, pixel-aspect-ratio=(fraction)1/1, bpp=(int)24, depth=(int)24, red_mask=(int)16711680, green_mask=(int)65280, blue_mask=(int)255, endianness=(int)4321
+generating shifts
+shifts: 16 8 0
+buffer has 24 bpp, endianness 4321, rgb ff0000 ff00 ff, video/x-raw-rgb, width=(int)560, height=(int)304, framerate=(fraction)25/1, pixel-aspect-ratio=(fraction)1/1, bpp=(int)24, depth=(int)24, red_mask=(int)16711680, green_mask=(int)65280, blue_mask=(int)255, endianness=(int)4321
+generating shifts
+shifts: 16 8 0
+buffer has 24 bpp, endianness 4321, rgb ff0000 ff00 ff, video/x-raw-rgb, width=(int)560, height=(int)304, framerate=(fraction)25/1, pixel-aspect-ratio=(fraction)1/1, bpp=(int)24, depth=(int)24, red_mask=(int)16711680, green_mask=(int)65280, blue_mask=(int)255, endianness=(int)4321
+generating shifts
+shifts: 16 8 0
+buffer has 24 bpp, endianness 4321, rgb ff0000 ff00 ff, video/x-raw-rgb, width=(int)560, height=(int)304, framerate=(fraction)25/1, pixel-aspect-ratio=(fraction)1/1, bpp=(int)24, depth=(int)24, red_mask=(int)16711680, green_mask=(int)65280, blue_mask=(int)255, endianness=(int)4321
+generating shifts
+shifts: 16 8 0
+buffer has 24 bpp, endianness 4321, rgb ff0000 ff00 ff, video/x-raw-rgb, width=(int)560, height=(int)304, framerate=(fraction)25/1, pixel-aspect-ratio=(fraction)1/1, bpp=(int)24, depth=(int)24, red_mask=(int)16711680, green_mask=(int)65280, blue_mask=(int)255, endianness=(int)4321
+generating shifts
+shifts: 16 8 0
+buffer has 24 bpp, endianness 4321, rgb ff0000 ff00 ff, video/x-raw-rgb, width=(int)560, height=(int)304, framerate=(fraction)25/1, pixel-aspect-ratio=(fraction)1/1, bpp=(int)24, depth=(int)24, red_mask=(int)16711680, green_mask=(int)65280, blue_mask=(int)255, endianness=(int)4321
+generating shifts
+shifts: 16 8 0
+buffer has 24 bpp, endianness 4321, rgb ff0000 ff00 ff, video/x-raw-rgb, width=(int)560, height=(int)304, framerate=(fraction)25/1, pixel-aspect-ratio=(fraction)1/1, bpp=(int)24, depth=(int)24, red_mask=(int)16711680, green_mask=(int)65280, blue_mask=(int)255, endianness=(int)4321
+generating shifts
+shifts: 16 8 0
+buffer has 24 bpp, endianness 4321, rgb ff0000 ff00 ff, video/x-raw-rgb, width=(int)560, height=(int)304, framerate=(fraction)25/1, pixel-aspect-ratio=(fraction)1/1, bpp=(int)24, depth=(int)24, red_mask=(int)16711680, green_mask=(int)65280, blue_mask=(int)255, endianness=(int)4321
+generating shifts
+shifts: 16 8 0
+buffer has 24 bpp, endianness 4321, rgb ff0000 ff00 ff, video/x-raw-rgb, width=(int)560, height=(int)304, framerate=(fraction)25/1, pixel-aspect-ratio=(fraction)1/1, bpp=(int)24, depth=(int)24, red_mask=(int)16711680, green_mask=(int)65280, blue_mask=(int)255, endianness=(int)4321
+generating shifts
+shifts: 16 8 0
+buffer has 24 bpp, endianness 4321, rgb ff0000 ff00 ff, video/x-raw-rgb, width=(int)560, height=(int)304, framerate=(fraction)25/1, pixel-aspect-ratio=(fraction)1/1, bpp=(int)24, depth=(int)24, red_mask=(int)16711680, green_mask=(int)65280, blue_mask=(int)255, endianness=(int)4321
+generating shifts
+shifts: 16 8 0
+buffer has 24 bpp, endianness 4321, rgb ff0000 ff00 ff, video/x-raw-rgb, width=(int)560, height=(int)304, framerate=(fraction)25/1, pixel-aspect-ratio=(fraction)1/1, bpp=(int)24, depth=(int)24, red_mask=(int)16711680, green_mask=(int)65280, blue_mask=(int)255, endianness=(int)4321
+generating shifts
+shifts: 16 8 0
+buffer has 24 bpp, endianness 4321, rgb ff0000 ff00 ff, video/x-raw-rgb, width=(int)560, height=(int)304, framerate=(fraction)25/1, pixel-aspect-ratio=(fraction)1/1, bpp=(int)24, depth=(int)24, red_mask=(int)16711680, green_mask=(int)65280, blue_mask=(int)255, endianness=(int)4321
+generating shifts
+shifts: 16 8 0
+buffer has 24 bpp, endianness 4321, rgb ff0000 ff00 ff, video/x-raw-rgb, width=(int)560, height=(int)304, framerate=(fraction)25/1, pixel-aspect-ratio=(fraction)1/1, bpp=(int)24, depth=(int)24, red_mask=(int)16711680, green_mask=(int)65280, blue_mask=(int)255, endianness=(int)4321
+generating shifts
+shifts: 16 8 0
+buffer has 24 bpp, endianness 4321, rgb ff0000 ff00 ff, video/x-raw-rgb, width=(int)560, height=(int)304, framerate=(fraction)25/1, pixel-aspect-ratio=(fraction)1/1, bpp=(int)24, depth=(int)24, red_mask=(int)16711680, green_mask=(int)65280, blue_mask=(int)255, endianness=(int)4321
+generating shifts
+shifts: 16 8 0
+buffer has 24 bpp, endianness 4321, rgb ff0000 ff00 ff, video/x-raw-rgb, width=(int)560, height=(int)304, framerate=(fraction)25/1, pixel-aspect-ratio=(fraction)1/1, bpp=(int)24, depth=(int)24, red_mask=(int)16711680, green_mask=(int)65280, blue_mask=(int)255, endianness=(int)4321
+generating shifts
+shifts: 16 8 0
+buffer has 24 bpp, endianness 4321, rgb ff0000 ff00 ff, video/x-raw-rgb, width=(int)560, height=(int)304, framerate=(fraction)25/1, pixel-aspect-ratio=(fraction)1/1, bpp=(int)24, depth=(int)24, red_mask=(int)16711680, green_mask=(int)65280, blue_mask=(int)255, endianness=(int)4321
+generating shifts
+shifts: 16 8 0
+buffer has 24 bpp, endianness 4321, rgb ff0000 ff00 ff, video/x-raw-rgb, width=(int)560, height=(int)304, framerate=(fraction)25/1, pixel-aspect-ratio=(fraction)1/1, bpp=(int)24, depth=(int)24, red_mask=(int)16711680, green_mask=(int)65280, blue_mask=(int)255, endianness=(int)4321
+generating shifts
+shifts: 16 8 0
+buffer has 24 bpp, endianness 4321, rgb ff0000 ff00 ff, video/x-raw-rgb, width=(int)560, height=(int)304, framerate=(fraction)25/1, pixel-aspect-ratio=(fraction)1/1, bpp=(int)24, depth=(int)24, red_mask=(int)16711680, green_mask=(int)65280, blue_mask=(int)255, endianness=(int)4321
+generating shifts
+shifts: 16 8 0
+buffer has 24 bpp, endianness 4321, rgb ff0000 ff00 ff, video/x-raw-rgb, width=(int)560, height=(int)304, framerate=(fraction)25/1, pixel-aspect-ratio=(fraction)1/1, bpp=(int)24, depth=(int)24, red_mask=(int)16711680, green_mask=(int)65280, blue_mask=(int)255, endianness=(int)4321
+generating shifts
+shifts: 16 8 0
+buffer has 24 bpp, endianness 4321, rgb ff0000 ff00 ff, video/x-raw-rgb, width=(int)560, height=(int)304, framerate=(fraction)25/1, pixel-aspect-ratio=(fraction)1/1, bpp=(int)24, depth=(int)24, red_mask=(int)16711680, green_mask=(int)65280, blue_mask=(int)255, endianness=(int)4321
+generating shifts
+shifts: 16 8 0
+buffer has 24 bpp, endianness 4321, rgb ff0000 ff00 ff, video/x-raw-rgb, width=(int)560, height=(int)304, framerate=(fraction)25/1, pixel-aspect-ratio=(fraction)1/1, bpp=(int)24, depth=(int)24, red_mask=(int)16711680, green_mask=(int)65280, blue_mask=(int)255, endianness=(int)4321
+generating shifts
+shifts: 16 8 0
+buffer has 24 bpp, endianness 4321, rgb ff0000 ff00 ff, video/x-raw-rgb, width=(int)560, height=(int)304, framerate=(fraction)25/1, pixel-aspect-ratio=(fraction)1/1, bpp=(int)24, depth=(int)24, red_mask=(int)16711680, green_mask=(int)65280, blue_mask=(int)255, endianness=(int)4321
+generating shifts
+shifts: 16 8 0
+buf

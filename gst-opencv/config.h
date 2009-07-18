@@ -5,7 +5,7 @@
 #define GST_PLUGIN_VERSION "0.10.0.1"
 
 /* Define the release version */
-#define GST_PLUGIN_VERSION_RELEASE "0.20090611.020927"
+#define GST_PLUGIN_VERSION_RELEASE "0.20090625.001022"
 
 /* Define to 1 if you have the <dlfcn.h> header file. */
 #define HAVE_DLFCN_H 1

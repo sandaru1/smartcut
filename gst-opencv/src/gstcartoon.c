@@ -264,7 +264,7 @@ gst_cartoon_transform (GstBaseTransform * base, GstBuffer * inbuf, GstBuffer * o
     goto wrong_size;
 
   memcpy(out,data,size);
-  make_cartoon(data,out,cartoon->width,cartoon->height,cartoon->diff_space,cartoon->trip_level);
+  make_cartoon(data,out,0,0,cartoon->width,cartoon->height,cartoon->width,cartoon->height,cartoon->diff_space,cartoon->trip_level);
 
 done:
   return GST_FLOW_OK;

@@ -53,10 +53,15 @@ int main(int argc, char** argv) {
   CvPoint point1; CvPoint point2;
 
   CvRect r;
-  r.x = 280;
-  r.y = 150;
-  r.width=100;
-  r.height =140;
+//  r.x = 280;
+//  r.y = 150;
+//  r.width=100;
+//  r.height =140;
+
+          r.x = 380;
+          r.y = 130;
+          r.width = 40;
+          r.height = 80;
 
   // sparkle
   int rays = 100;
@@ -70,7 +75,7 @@ int main(int argc, char** argv) {
   // end - sparkle
 
 
-  capture = cvCaptureFromAVI("/media/data/MVI_2488.AVI");
+  capture = cvCaptureFromAVI("/media/data/smartcut-videos/o1.avi");
   cvNamedWindow( "output", 1 ); 
 
 

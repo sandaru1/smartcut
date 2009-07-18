@@ -40,7 +40,7 @@ int main(int argc, char** argv)
     CvMemStorage* storage = cvCreateMemStorage(0);
 	CvRect selection;
     CvCapture* capture = 0;
-	capture = cvCaptureFromAVI( "/home/sandaru1/Desktop/smartcut/server/media/videos/53.avi" ); 
+	capture = cvCaptureFromAVI( "/media/data/smartcut-videos/MVI_2488.AVI" ); 
 
 	selection.x = 270;
 	selection.y = 140;

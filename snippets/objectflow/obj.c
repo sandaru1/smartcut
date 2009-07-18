@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "fire.h"
+
 IplImage *image = 0, *grey = 0, *prev_grey = 0, *pyramid = 0, *prev_pyramid = 0, *swap_temp;
 
 int win_size = 10;
@@ -22,13 +24,47 @@ int main(int argc, char** argv)
 {
     CvCapture* capture = 0;
 
+  CvRect newr;
+
+
           CvRect r;
-          r.x = 280;
-          r.y = 150;
-          r.width=100;
-          r.height =150;
+/*  r.x = 280;
+  r.y = 150;
+  r.width=100;
+  r.height =140;
+  capture = cvCaptureFromAVI("/media/data/smartcut-videos/MVI_2488.AVI");*/
+
+/*          r.x = 380;
+          r.y = 130;
+          r.width=40;
+          r.height=80;
     
-    capture = cvCaptureFromAVI("/media/data/MVI_2488.AVI");
+    capture = cvCaptureFromAVI("/media/data/smartcut-videos/o1.avi");*/
+
+/*          r.x = 180;
+          r.y = 10;
+          r.width=220;
+          r.height=180;
+    
+    capture = cvCaptureFromAVI("/media/data/smartcut-videos/car.avi");*/
+
+
+
+          r.x = 315;
+          r.y = 120;
+          r.width=30;
+          r.height=70;
+    
+    capture = cvCaptureFromAVI("/media/data/smartcut-videos/bus.avi");
+
+/*          r.x = 610;
+          r.y = 275;
+          r.width=90;
+          r.height =80;
+    
+    capture = cvCaptureFromAVI("/media/data/orangeball.avi");*/
+
+
 
     if( !capture )
     {
@@ -37,6 +73,13 @@ int main(int argc, char** argv)
     }
 
     cvNamedWindow( "output", 1 );
+//    init_fire();
+//    memset(fire,0,sizeof(fire));
+
+/*    image = cvQueryFrame( capture );
+    cvRectangle( image, cvPoint(r.x,r.y),cvPoint(r.x+r.width,r.y+r.height), CV_RGB(255,0,0) );
+    cvShowImage( "output", image );
+    cvWaitKey(0);*/
 
     for(;;)
     {
@@ -46,6 +89,13 @@ int main(int argc, char** argv)
         frame = cvQueryFrame( capture );
         if( !frame )
             break;
+
+        // TODO: dynamic allocation of fire array
+        //if ( fire == NULL ) {
+          //fire = (int***)malloc(sizeof(int)*frame->width*frame->height*2);
+          //memset(fire,0,sizeof(int)*frame->width*frame->height*2);
+          //init_fire();
+        //}
 
         if( !image )
         {
@@ -67,8 +117,6 @@ int main(int argc, char** argv)
 
         if( need_to_init )
         {
-
-
           IplImage*  g = cvCreateImage( cvSize(r.width,r.height), 8, 1 );
 
           int i, j, R, G, B, pos;
@@ -112,6 +160,7 @@ int main(int argc, char** argv)
                     continue;
                 
                 points[1][k++] = points[1][i];
+                //set_fire(points[1][i].x,points[1][i].y,image->width,image->height);
                 cvCircle( image, cvPointFrom32f(points[1][i]), 3, CV_RGB(0,255,0), -1, 8,0);
             }
             count = k;
@@ -133,12 +182,36 @@ int main(int argc, char** argv)
         for(i=0;i<count;i++) {
           float dx = abs(points[1][i].x-X);
           float dy = abs(points[1][i].y-Y);
-          if (dx<(r.width/2) && dy<(r.height/2)) {
+          if (dx<=(r.width/2) && dy<=(r.height/2)) {
             points[0][nc++] = points[1][i];
           }
         }
         count = nc;
         need_to_init = 0;
+
+
+       // reduce increase size of the object
+        CvPoint* cx = (CvPoint*)cvAlloc(nc*sizeof(CvPoint));
+        for(i=0;i<nc;i++) {
+          cx[i].x = (int)points[0][i].x;
+          cx[i].y = (int)points[0][i].y;
+        }
+        CvMat pointMat = cvMat( 1, nc, CV_32SC2, cx );
+        newr = cvBoundingRect( &pointMat, 0 );
+
+        
+        if (abs(newr.width-r.width)>r.width/4) {
+          r.width = r.width + (newr.width-r.width)/4;
+        }
+
+        if (abs(newr.height-r.height)>r.height/4) {
+          r.height = r.height + (newr.height-r.height)/4;
+        }
+
+
+//      expand_fire(image->width,image->height);
+//      draw_fire(image->width,image->height,image->imageData);
+
         cvShowImage( "output", image );
         c = cvWaitKey(10);
     }

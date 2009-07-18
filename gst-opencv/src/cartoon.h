@@ -1,8 +1,11 @@
+guint8 flat[256];
+
 void flatten_color(guint8 *c)
 {
   int i;
   for(i=0;i<3;i++)
-   c[i] = (guint8)40*(c[i]/40.0);
+   c[i] = flat[c[i]];
+//   c[i] = (guint8)40*(c[i]/40.0);
 }
 
 long max_contrast(guint8 *C1,guint8 *C2) {
@@ -11,8 +14,10 @@ long max_contrast(guint8 *C1,guint8 *C2) {
   long out = 0;
 
   for(i=0;i<3;i++) {
-    c1[i] = 40*(C1[i]/40.0);
-    c2[i] = 40*(C2[i]/40.0);
+    c1[i] = flat[C1[i]];
+    c2[i] = flat[C2[i]];
+//    c1[i] = 40*(C1[i]/40.0);
+//    c2[i] = 40*(C2[i]/40.0);
   }
   for(i=0;i<3;i++)
    out += (c1[i]-c2[i])*(c1[i]-c2[i]); 
@@ -83,16 +88,23 @@ void copyColor(guint8* c1,guint8* c2) {
 /*
  *  Cartoonify picture, do a form of edge detect 
  */
-void make_cartoon(guint8 *source,guint8 *target,int width,int height,int diff_space,int trip_level)
+void make_cartoon(guint8 *source,guint8 *target,int X,int Y,int WIDTH,int HEIGHT,int width,int height,int diff_space,int trip_level)
 {
     int x,y;
     guint8 black[3],c[3];
+
+  if (flat[255]==0) {
+    for(x=0;x<255;x++) {
+     flat[x] = (guint8)40*(x/40.0);
+    }
+  }
+
    
     make_color(black,0,0,0);
    
-   for (x=diff_space;x<width-(1+diff_space);x++)
+   for (x=X+diff_space;x<(X+WIDTH)-(1+diff_space);x++)
    {
-      for (y=diff_space;y<height-(1+diff_space);y++)
+      for (y=Y+diff_space;y<(Y+HEIGHT)-(1+diff_space);y++)
       {
          if (get_max_contrast(source,x,y,diff_space,width)>trip_level)
       	 {

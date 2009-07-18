@@ -48,5 +48,10 @@ Ext.extend(Effects, Ext.Panel, {
   hideObject: function(coord) {
     this.object.hide();
     Ext.getCmp('timeline').addEffectPipe('objblur x1='+coord.x1+' y1='+coord.y1+' x2='+coord.x2+' y2='+coord.y2);
+  },
+
+  hideObject2: function(coord) {
+    this.object2.hide();
+    Ext.getCmp('timeline').addEffectPipe('objeffect effect=0 hue=-50 x1='+coord.x1+' y1='+coord.y1+' x2='+coord.x2+' y2='+coord.y2);
   }
 });
